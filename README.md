@@ -1,4 +1,4 @@
-﻿# 📢 Sarkari Job Notifier — FastAPI + React PWA
+﻿# 📢 Job Notifier — FastAPI + React PWA
 
 An automated Sarkari Job tracking, deadline countdown, and instant Web Push notification application.
 
