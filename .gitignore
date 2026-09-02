@@ -1,0 +1,18 @@
+# Python
+backend/venv/
+backend/.env
+backend/jobs.db
+jobs.db
+*.db
+*.sqlite
+*.sqlite3
+backend/__pycache__/
+*.pyc
+*.pyo
+
+# Node
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+.DS_Store
+Thumbs.db
