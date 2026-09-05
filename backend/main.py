@@ -1,4 +1,4 @@
-﻿import os
+import os
 from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,6 +16,11 @@ async def lifespan(app: FastAPI):
     # Startup
     print("[Startup] Initializing database tables...")
     create_db_and_tables()
+    try:
+        from seed_sample_jobs import seed
+        seed()
+    except Exception as e:
+        print(f"[Startup] Seeding note: {e}")
     print("[Startup] Initializing VAPID keys...")
     get_or_create_vapid_keys()
     print("[Startup] Starting reminder scheduler...")

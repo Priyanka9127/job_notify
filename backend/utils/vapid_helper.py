@@ -1,4 +1,4 @@
-﻿import os
+import os
 import base64
 from pathlib import Path
 from dotenv import load_dotenv, set_key
@@ -38,13 +38,19 @@ def get_or_create_vapid_keys():
     email = os.getenv("VAPID_CLAIM_EMAIL", "mailto:admin@sarkarinotifier.local")
 
     if not public_key or not private_key:
-        if not ENV_FILE.exists():
-            ENV_FILE.touch()
         public_key, private_key = generate_vapid_key_pair()
-        set_key(str(ENV_FILE), "VAPID_PUBLIC_KEY", public_key)
-        set_key(str(ENV_FILE), "VAPID_PRIVATE_KEY", private_key)
-        set_key(str(ENV_FILE), "VAPID_CLAIM_EMAIL", email)
-        print(f"[VAPID] Generated new VAPID keys and saved to {ENV_FILE}")
+        os.environ["VAPID_PUBLIC_KEY"] = public_key
+        os.environ["VAPID_PRIVATE_KEY"] = private_key
+        os.environ["VAPID_CLAIM_EMAIL"] = email
+        try:
+            if not ENV_FILE.exists():
+                ENV_FILE.touch()
+            set_key(str(ENV_FILE), "VAPID_PUBLIC_KEY", public_key)
+            set_key(str(ENV_FILE), "VAPID_PRIVATE_KEY", private_key)
+            set_key(str(ENV_FILE), "VAPID_CLAIM_EMAIL", email)
+            print(f"[VAPID] Generated new VAPID keys and saved to {ENV_FILE}")
+        except Exception as e:
+            print(f"[VAPID] Set in-memory VAPID keys ({e})")
 
     return {
         "public_key": public_key,
